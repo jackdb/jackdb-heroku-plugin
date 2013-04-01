@@ -1,6 +1,6 @@
 # JackDB Heroku Plugin
 
-The JackDB Heroku plugin is used to open up your Heroku data sources in JackDB from the command line.
+The JackDB Heroku plugin lets you connect to your Heroku data sources in JackDB from the command line.
 
 For more about JackDB see: [http://www.jackdb.com/][JackDB]
 
@@ -30,6 +30,24 @@ The plugin requires the ```json``` ruby gen. If you don't already have it instal
 	  jackdb:mysql [CONFIG_VAR]  #  Opens a MySQL database in JackDB
 	  jackdb:pg [DATABASE]       #  Opens a PostgreSQL database in JackDB
 	  jackdb:xeround             #  Opens a Xeround MySQL database in JackDB
+
+## Examples
+
+Open up the default database in JackDB (the plugin searches for the first valid database URL):
+
+    $ heroku jackdb
+
+Open up the default PostgreSQL database in JackDB:
+
+    $ heroku jackdb:pg
+
+Open up a specific PostgreSQL database in JackDB:
+
+    $ heroku jackdb:pg COPPER
+
+Open up the default MySQL database in JackDB:
+
+    $ heroku jackdb:mysql
 
 ## What types of databases does it support?
 
