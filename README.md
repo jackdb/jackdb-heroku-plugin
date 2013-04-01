@@ -6,7 +6,7 @@ For more about JackDB see: [http://www.jackdb.com/][JackDB]
 
 ## Installation
 
-    $ heroku plugins:install https://github.com/jackdb/heroku-jackdb.git
+    $ heroku plugins:install https://github.com/jackdb/jackdb-heroku-plugin.gi
 
 ## Requirements
 
