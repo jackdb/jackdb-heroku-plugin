@@ -1,8 +1,6 @@
 # JackDB Heroku Plugin
 
-The JackDB Heroku plugin lets you connect to your Heroku data sources in JackDB from the command line.
-
-For more about JackDB see: [http://www.jackdb.com/][JackDB]
+Extends `heroku` command-line to query and visualize Heroku data sources on [JackDB][JackDB].
 
 ## Installation
 
@@ -90,6 +88,10 @@ Finally the plugin then generates a URL to login directly to JackDB using the to
 In case your browser does not open automatically the link is also printed for manual opening.
 
 No connection attempt is made until after you login and open the page in your browser.
+
+## Do I need to install JackDB?
+
+No. JackDB works entirely in your web browser.
 
 ## Is it secure?
 
