@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'net/http'
 require 'net/https'
-require 'json'
 require 'heroku/command/run'
 require "heroku/command/base"
 require "heroku/command/pg"
@@ -41,7 +40,7 @@ module Heroku::Helpers::JackDB
     request = Net::HTTP::Post.new("#{jackdb_server.path}#{jackdb_server_create_path}")
     request.add_field("Content-Type", "application/json")
     request.add_field("Referer", jackdb_server)
-    request.body = config.to_json
+    request.body = JackDB::OkJson::encode(config)
     
     net.read_timeout = 10
     net.open_timeout = 10
@@ -50,7 +49,7 @@ module Heroku::Helpers::JackDB
       http.request(request)
     end
 
-    result = JSON.parse(response.read_body)
+    result = JackDB::OkJson::decode(response.read_body)
     if result && result['success'] && result['token']
       jackdb_link = "#{jackdb_server}#{jackdb_server_connect_path}?token=#{result['token']}"
       puts "Successfully created JackDB connection token for your data source."

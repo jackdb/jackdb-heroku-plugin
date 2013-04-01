@@ -6,12 +6,6 @@ Extends `heroku` command-line to query and visualize Heroku data sources on [Jac
 
     $ heroku plugins:install https://github.com/jackdb/jackdb-heroku-plugin.git
 
-## Requirements
-
-The plugin requires the ```json``` ruby gen. If you don't already have it installed you can install it with:
-
-    $ gem install json
-
 ## Usage
 
     $ heroku help jackdb
