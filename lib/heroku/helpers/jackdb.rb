@@ -12,19 +12,19 @@ module Heroku::Helpers::JackDB
   extend self
   
   def open_link(link)
-  	if RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/ then
-  	  system("start", link)
-  	elsif RbConfig::CONFIG['host_os'] =~ /darwin/ then
-  	  system("open", link)
-  	elsif RbConfig::CONFIG['host_os'] =~ /linux/ then
-  	  system("xdg-open", link)
-  	end
+    if RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/ then
+      system("start", link)
+    elsif RbConfig::CONFIG['host_os'] =~ /darwin/ then
+      system("open", link)
+    elsif RbConfig::CONFIG['host_os'] =~ /linux/ then
+      system("xdg-open", link)
+    end
   end
   
-	def gen_datasource_name(name)
-	  app_data = api.get_app(app).body
-	  return "#{app_data["name"]} - #{name}"
-	end
+  def gen_datasource_name(name)
+    app_data = api.get_app(app).body
+    return "#{app_data["name"]} - #{name}"
+  end
 
   def open_jackdb(config)    
     jackdb_server = URI("https://cloud.jackdb.com")
@@ -87,16 +87,16 @@ module Heroku::Helpers::JackDB
   # of the first that successfully parses as a URI and matches
   # the provided scheme.
   def resolve_config_var_uri(scheme, *names)
-  	names.each do |name|
-	   val = app_config_vars[name]
-	    begin
-	      uri = URI.parse(val)
-	      if uri.scheme == scheme
-	        return val
-	      end
-	    rescue
-	    end
-	  end
-	  return nil
-	end
+    names.each do |name|
+     val = app_config_vars[name]
+      begin
+        uri = URI.parse(val)
+        if uri.scheme == scheme
+          return val
+        end
+      rescue
+      end
+    end
+    return nil
+  end
 end
