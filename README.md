@@ -84,7 +84,7 @@ The connection tokens expire after a couple minutes (currently 5) and the server
 ## License
 The source code for this plugin is released under the MIT license. See the file LICENSE.
 
-Use of this plugin with the JackDB service is subject to the JackDB [terms of service][JackDB Terms].
+Use of this plugin with JackDB's services shall be subject to the [Terms of Service][JackDB Terms].
 
 ## Copyright
 
