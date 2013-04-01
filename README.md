@@ -114,7 +114,7 @@ Copyright &copy; 2013 JackDB, Inc.
 [Contact]: mailto:hello@jackdb.com?subject=JackDB%20Heroku%20Plugin
 [JackDB Security]: http://www.jackdb.com/legal/security.html
 [JackDB Terms]: http://www.jackdb.com/legal/terms.html
-[JackDB Networking]: http://wwww.jackdb.com/docs/index.html#networking
+[JackDB Networking]: http://www.jackdb.com/docs/index.html#networking
 [PostgreSQL]: http://www.postgresql.org/
 [MySQL]: http://www.mysql.com/
 [MariaDB]: https://mariadb.org/
