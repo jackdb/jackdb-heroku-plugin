@@ -70,7 +70,7 @@ class Heroku::Command::JackDB < Heroku::Command::Run
   # Open a database in JackDB
   #
   # This will search through your app config for the valid database url and try to connect to it.
-  # If you have more than one database then use one of the "jackdb:"" commands to connect to a specific one.
+  # If you have more than one database then use one of the "jackdb:" commands to connect to a specific one.
   def index
     begin
       pg()

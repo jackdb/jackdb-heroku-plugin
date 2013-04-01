@@ -20,7 +20,7 @@ The plugin requires the ```json``` ruby gen. If you don't already have it instal
 	 Open a database in JackDB
 
 	 This will search through your app config for the valid database url and try to connect to it.
-	 If you have more than one database then use one of the "jackdb:"" commands to connect to a specific one.
+	 If you have more than one database then use one of the "jackdb:" commands to connect to a specific one.
 
 	Additional commands, type "heroku help COMMAND" for more details:
 
