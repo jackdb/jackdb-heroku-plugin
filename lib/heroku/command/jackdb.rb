@@ -51,16 +51,16 @@ class Heroku::Command::JackDB < Heroku::Command::Run
   def pg
     uri = URI.parse( hpg_resolve(shift_argument, "DATABASE_URL").url )
     config = {
-      :name => gen_datasource_name("PostgreSQL"),
-      :type => "POSTGRESQL",
-      :config => {
-        :host => uri.host,
-        :port => uri.port || 5432,
-        :database => uri.path[1..-1],
-        :username => uri.user,
-        :password => uri.password,
-        :use_ssl => true,
-        :validate_ssl_cert => false
+      'name' => gen_datasource_name("PostgreSQL"),
+      'type' => "POSTGRESQL",
+      'config' => {
+        'host' => uri.host,
+        'port' => uri.port || 5432,
+        'database' => uri.path[1..-1],
+        'username' => uri.user,
+        'password' => uri.password,
+        'use_ssl' => true,
+        'validate_ssl_cert' => false
       }
     }
     open_jackdb(config)

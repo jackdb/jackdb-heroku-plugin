@@ -67,16 +67,16 @@ module Heroku::Helpers::JackDB
   def open_mysql(name, url)    
     uri = URI.parse( url )
     config = {
-      :name => gen_datasource_name(name),
-      :type => "MYSQL",
-      :config => {
-        :host => uri.host,
-        :port => uri.port || 3306,
-        :database => uri.path[1..-1],
-        :username => uri.user,
-        :password => uri.password,
-        :use_ssl => true,
-        :validate_ssl_cert => false
+      'name' => gen_datasource_name(name),
+      'type' => "MYSQL",
+      'config' => {
+        'host' => uri.host,
+        'port' => uri.port || 3306,
+        'database' => uri.path[1..-1],
+        'username' => uri.user,
+        'password' => uri.password,
+        'use_ssl' => true,
+        'validate_ssl_cert' => false
       }
     }
     open_jackdb(config)
