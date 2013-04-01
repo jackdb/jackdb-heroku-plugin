@@ -4,6 +4,7 @@ require "heroku/command/pg"
 require "heroku/client/heroku_postgresql"
 require "heroku/helpers/heroku_postgresql"
 require "heroku/helpers/jackdb"
+require "vendor/jackdb/okjson"
 
 # open database in JackDB
 class Heroku::Command::JackDB < Heroku::Command::Run

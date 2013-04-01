@@ -25,7 +25,7 @@ module Heroku::Helpers::JackDB
     return "#{app_data["name"]} - #{name}"
   end
 
-  def open_jackdb(config)    
+  def open_jackdb(config)
     jackdb_server = URI("https://cloud.jackdb.com")
     #jackdb_server = URI("http://localhost:8080/jackdb-webapp")
     
