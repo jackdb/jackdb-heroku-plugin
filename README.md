@@ -43,7 +43,7 @@ Open up the default MySQL database in JackDB:
 
 ## What types of databases does it support?
 
-The JackDB Heroku plugin currently supports [PostgreSQL][PostgreSQL], [MySQL][MySQL], and [MariaDB][MariaDB]..
+The JackDB Heroku plugin currently supports [PostgreSQL][PostgreSQL], [MySQL][MySQL], and [MariaDB][MariaDB].
 
 JackDB itself supports a number of additional databases. For details [see here][JackDB].
 
