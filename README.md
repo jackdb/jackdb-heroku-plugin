@@ -1,6 +1,6 @@
 # JackDB Heroku Plugin
 
-Extends `heroku` command-line to query and visualize Heroku data sources on [JackDB][JackDB].
+Extends `heroku` command-line to query and visualize Heroku data sources on [JackDB][].
 
 ## Installation
 
@@ -43,45 +43,45 @@ Open up the default MySQL database in JackDB:
 
 ## What types of databases does it support?
 
-The JackDB Heroku plugin currently supports [PostgreSQL][PostgreSQL], [MySQL][MySQL], and [MariaDB][MariaDB].
+The JackDB Heroku plugin currently supports [PostgreSQL][], [MySQL][], and [MariaDB][] databases.
 
-JackDB itself supports a number of additional databases. For details [see here][JackDB].
+JackDB supports a number of other data source types. For more details, [see here][JackDB].
 
 ## Can I use this for other types of databases?
 
-We're working on adding support for additional data source types, both relational and NoSQL, to both JackDB itself and to this plugin. [Let us know][Contact] what data source you'd like us to add next.
+We're working on adding support for additional data sources. [Let us know][Contact] what data sources you'd like us to support next.
 
-## Networking/Firewall
+## Networking & Firewall
 
-The plugin has been tested with [Heroku Postgres][Heroku Postgres], [Xeround MySQL][Xeround MySQL], and [ClearDB MySQL][ClearDB MySQL] and works without any additional setup with all three.
+The plugin has been tested with [Heroku Postgres][], [Xeround MySQL][], and [ClearDB MySQL][] and works without any additional setup with all three.
 
-If your database is firewalled you will need to open up the appropriate ports to allow JackDB to access it. For details [see here][JackDB Networking].
+If your database is behind a firewall, you will need to open up the appropriate ports to allow JackDB to access it. For details, [see here][JackDB Networking].
 
 ## Can I use this with a database running on my local machine or network?
 
-Not yet but we're working on it. At the moment JackDB connects directly to your database so it's not possible to reach databases that are behind a firewall.
+Not yet, but we're working on it. JackDB connects directly to your database so it's not currently possible to reach databases that are behind a firewall.
 
 ## How does it work?
 
 The plugin works in three steps.
 
-First it identifies the database you are connecting to. By default it tries to get the configuration details for the PostgreSQL database in the Heroku config property DATABASE_URL. The other sub commands mainly change where the plugin looks for the database configuration and what type of configuration it looks for.
+First the plugin identifies the database to connect to. By default, the plugin attempts to get configuration details for the PostgreSQL database in the Heroku configuration property `DATABASE_URL`. The plugin's other commands change where to look for a database configuration and what type of configuration to look for.
 
-If it finds a valid configuration it does a POST request to JackDB with the config information of your database. The JackDB server:
+Then, if the plugin finds a valid database configuration, it sends a `POST` request to JackDB with the config information for your database. The JackDB server:
  
-  1. Generates a unique random id for the request
-  1. Generates a random encryption key
-  1. Encrypts the data source config information with the key using AES-256-CBC
-  1. Saves the encrypted data source config information keyed by the id
-  1. Finally it returns back a signed token containing the encryption key and id
+  1. Generates a unique random id for the request.
+  1. Generates a random encryption key.
+  1. Encrypts the data source config information with the key using AES-256-CBC.
+  1. Saves the encrypted database configuration details, keyed by the id.
+  1. Returns back a signed token containing the encryption key and id.
 
-The encryption key used to encrypt your data source config is not saved by JackDB. It is only returned back to this plugin in response to the POST request.
+The encryption key used to encrypt your database configuration details is not saved by JackDB, and is only sent in response to the plugin's `POST` request.
 
-Finally the plugin then generates a URL to login directly to JackDB using the token from previous step and opens it as a GET request using your default browser. If you are already logged into JackDB then it will immediately try to connect to your data source. If not then you'll be sent to the login page first (then redirected to the connection). 
+Finally, the plugin then generates a URL to log in directly to JackDB using the token from the previous step and opens using your default web browser. If you're already logged into JackDB, then we'll immediately connect you to your data source. If not, then you'll be sent to the login page.
 
-In case your browser does not open automatically the link is also printed for manual opening.
+If your browser does not open automatically, the URL is also printed.
 
-No connection attempt is made until after you login and open the page in your browser.
+No attempt to connect to your data source is made until after you log in and open the URL in your browser.
 
 ## Do I need to install JackDB?
 
@@ -89,11 +89,11 @@ No. JackDB works entirely in your web browser.
 
 ## Is it secure?
 
-All network transfers are done over SSL and the encryption key to decrypt your data source config is not persisted anywhere on the server. See [here][JackDB Security] for more details about how JackDB handles security.
+All data transfer is done using SSL and the encryption key to decrypt your data source configuration is not persisted anywhere on the JackDB server. See [here][JackDB Security] for more on how JackDB handles security.
 
 ## Why does it say my token is expired?
 
-The connection tokens expire after a couple minutes (currently 5) and the server rejects connection attempts for expired tokens. If you receive this error then try running the plugin command again and it should work.
+The connection tokens expire after a couple of minutes (currently five) and the server rejects connection attempts for expired tokens. If you receive this error then try running the plugin command again and it should work.
 
 ## License
 The source code for this plugin is released under the MIT license. See the file LICENSE.
