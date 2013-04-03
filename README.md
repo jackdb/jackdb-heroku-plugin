@@ -2,6 +2,8 @@
 
 Extends `heroku` command-line to query and visualize Heroku data sources on [JackDB][].
 
+<a href="http://www.jackdb.com/"><img width="940" height="393" src="http://static.jackdb.com/assets/img/hero.png" alt="JackDB - Screenshot"></a>
+
 ## Installation
 
     $ heroku plugins:install https://github.com/jackdb/jackdb-heroku-plugin.git
