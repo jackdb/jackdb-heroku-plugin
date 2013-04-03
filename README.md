@@ -1,4 +1,4 @@
-<a href="http://www.jackdb.com/"><img src="http://static.jackdb.com/assets/img/jackdb-logo.png" alt="JackDB"></a>
+<a href="http://www.jackdb.com/"><img width="135" src="http://static.jackdb.com/assets/img/jackdb-logo.png" alt="JackDB"></a>
 
 
 # JackDB Heroku Plugin
