@@ -1,11 +1,14 @@
-<a href="http://www.jackdb.com/"><img width="135" src="http://static.jackdb.com/assets/img/jackdb-logo.png" alt="JackDB"></a>
-
+<a href="http://www.jackdb.com/">
+  <img width="135" src="http://static.jackdb.com/public/img/jackdb-logo.png" alt="JackDB">
+</a>
 
 # JackDB Heroku Plugin
 
 Extends `heroku` command-line to query and visualize Heroku data sources on [JackDB][].
 
-<a href="http://www.jackdb.com/"><img width="852" src="http://static.jackdb.com/assets/img/hero.png" alt="JackDB - Screenshot"></a>
+<a href="http://www.jackdb.com/">
+  <img width="850" src="http://static.jackdb.com/public/img/jackdb-screenshot.png" alt="JackDB - Screenshot">
+</a>
 
 ## Installation
 
@@ -16,10 +19,10 @@ Extends `heroku` command-line to query and visualize Heroku data sources on [Jac
     $ heroku help jackdb
     Usage: heroku jackdb
 
-	 Open a database in JackDB
+	Open a database in JackDB
 
-	 This will search through your app config for the valid database url and try to connect to it.
-	 If you have more than one database then use one of the "jackdb:" commands to connect to a specific one.
+	  This will search through your app config for the valid database url and try to connect to it.
+	  If you have more than one database then use one of the "jackdb:" commands to connect to a specific one.
 
 	Additional commands, type "heroku help COMMAND" for more details:
 
@@ -101,7 +104,8 @@ All data transfer is done using SSL and the encryption key to decrypt your data 
 The connection tokens expire after a couple of minutes (currently five) and the server rejects connection attempts for expired tokens. If you receive this error then try running the plugin command again and it should work.
 
 ## License
-The source code for this plugin is released under the MIT license. See the file LICENSE.
+
+This plugin is released under the MIT license. See the file LICENSE.
 
 Use of this plugin with JackDB's services shall be subject to the [Terms of Service][JackDB Terms].
 
