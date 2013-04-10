@@ -19,17 +19,18 @@ Extends `heroku` command-line to query and visualize Heroku data sources on [Jac
     $ heroku help jackdb
     Usage: heroku jackdb
 
-	Open a database in JackDB
+     Open a database in JackDB
 
-	  This will search through your app config for the valid database url and try to connect to it.
-	  If you have more than one database then use one of the "jackdb:" commands to connect to a specific one.
+     This will search through your app config for the valid database url and try to connect to it.
+     If you have more than one database then use one of the "jackdb:" commands to connect to a specific one.
 
-	Additional commands, type "heroku help COMMAND" for more details:
+    Additional commands, type "heroku help COMMAND" for more details:
 
-	  jackdb:cleardb             #  Opens a ClearDB MySQL database in JackDB
-	  jackdb:mysql [CONFIG_VAR]  #  Opens a MySQL database in JackDB
-	  jackdb:pg [DATABASE]       #  Opens a PostgreSQL database in JackDB
-	  jackdb:xeround             #  Opens a Xeround MySQL database in JackDB
+      jackdb:cleardb              #  Opens a ClearDB MySQL database in JackDB
+      jackdb:mysql [CONFIG_VAR]   #  Opens a MySQL database in JackDB
+      jackdb:oracle [CONFIG_VAR]  #  Opens an Oracle database in JackDB
+      jackdb:pg [CONFIG_VAR]      #  Opens a Postgres database in JackDB
+      jackdb:xeround              #  Opens a Xeround MySQL database in JackDB
 
 ## Examples
 
@@ -51,7 +52,7 @@ Open up the default MySQL database in JackDB:
 
 ## What types of databases does it support?
 
-The JackDB Heroku plugin currently supports [PostgreSQL][], [MySQL][], and [MariaDB][] databases.
+The JackDB Heroku plugin currently supports [PostgreSQL][], [MySQL][], [MariaDB][], and [Oracle RDBMS][] databases.
 
 JackDB supports a number of other data source types. For more details, [see here][JackDB].
 
@@ -124,3 +125,4 @@ Copyright &copy; 2013 JackDB, Inc.
 [Heroku Postgres]: https://postgres.heroku.com/
 [Xeround MySQL]: http://xeround.com/
 [ClearDB MySQL]: http://www.cleardb.com/
+[Oracle RDBMS]: http://www.oracle.com/
