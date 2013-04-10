@@ -26,8 +26,7 @@ module Heroku::Helpers::JackDB
   end
 
   def open_jackdb(config)
-    #jackdb_server = URI("https://cloud.jackdb.com")
-    jackdb_server = URI("http://dev1.jackdb.com:8080/jackdb-webapp")
+    jackdb_server = URI("https://cloud.jackdb.com")
     
     jackdb_server_create_path = "/api/v1/na/directConnect"
     jackdb_server_connect_path = "/home/directConnect"
