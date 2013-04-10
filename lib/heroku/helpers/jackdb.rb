@@ -26,8 +26,8 @@ module Heroku::Helpers::JackDB
   end
 
   def open_jackdb(config)
-    jackdb_server = URI("https://cloud.jackdb.com")
-    #jackdb_server = URI("http://localhost:8080/jackdb-webapp")
+    #jackdb_server = URI("https://cloud.jackdb.com")
+    jackdb_server = URI("http://dev1.jackdb.com:8080/jackdb-webapp")
     
     jackdb_server_create_path = "/api/v1/na/directConnect"
     jackdb_server_connect_path = "/home/directConnect"
@@ -64,8 +64,38 @@ module Heroku::Helpers::JackDB
     end
   end
 
-  def open_mysql(name, url)    
-    uri = URI.parse( url )
+  def open_postgres(name, uri)    
+    if uri == nil
+      return false
+    end
+    if( uri.scheme != "postgres" ) 
+      raise "URI is not a PostgreSQL datasource URL: #{uri}"
+    end
+    config = {
+      'name' => gen_datasource_name(name),
+      'type' => "POSTGRESQL",
+      'config' => {
+        'host' => uri.host,
+        'port' => uri.port || 5432,
+        'database' => uri.path[1..-1],
+        'username' => uri.user,
+        'password' => uri.password,
+        'use_ssl' => true,
+        'validate_ssl_cert' => false,
+        'auto_commit' => true
+      }
+    }
+    open_jackdb(config)
+    return true
+  end
+
+  def open_mysql(name, uri)
+    if uri == nil
+      return false
+    end
+    if( uri.scheme != "mysql" ) 
+      raise "URI is not a MySQL datasource URL: #{uri}"
+    end
     config = {
       'name' => gen_datasource_name(name),
       'type' => "MYSQL",
@@ -76,10 +106,35 @@ module Heroku::Helpers::JackDB
         'username' => uri.user,
         'password' => uri.password,
         'use_ssl' => true,
-        'validate_ssl_cert' => false
+        'validate_ssl_cert' => false,
+        'auto_commit' => true
       }
     }
     open_jackdb(config)
+    return true
+  end
+
+  def open_oracle(name, uri)    
+    if uri == nil
+      return false
+    end
+    if( uri.scheme != "oracle" ) 
+      raise "URI is not a Oracle datasource URL: #{uri}"
+    end
+    config = {
+      'name' => gen_datasource_name(name),
+      'type' => "ORACLE",
+      'config' => {
+        'host' => uri.host,
+        'port' => uri.port || 1521,
+        'service_name' => uri.path[1..-1],
+        'username' => uri.user,
+        'password' => uri.password,
+        'auto_commit' => false
+      }
+    }
+    open_jackdb(config)
+    return true
   end
 
   # Tries a series of config variable names and returns the value
@@ -87,15 +142,26 @@ module Heroku::Helpers::JackDB
   # the provided scheme.
   def resolve_config_var_uri(scheme, *names)
     names.each do |name|
-     val = app_config_vars[name]
+      val = app_config_vars[name]
       begin
         uri = URI.parse(val)
         if uri.scheme == scheme
-          return val
+          puts "Found a valid URL for scheme '#{scheme}':"
+          puts "  #{name} => #{val}"
+          return uri
         end
       rescue
       end
     end
     return nil
+  end
+
+  def resolve_pg_config_var(config_var, *names)
+    if config_var != nil
+      keys = app_config_vars.keys.grep(%r{#{ config_var }}i)
+      return resolve_config_var_uri("postgres", *keys)
+    else
+      return resolve_config_var_uri("postgres", *names)
+    end
   end
 end

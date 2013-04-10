@@ -11,14 +11,43 @@ class Heroku::Command::JackDB < Heroku::Command::Run
   include Heroku::Helpers::HerokuPostgresql
   include Heroku::Helpers::JackDB
 
+  # jackdb:pg [CONFIG_VAR]
+  #
+  # Opens a Postgres database in JackDB
+  #
+  # Connection information is pulled from the first valid value of DATABASE_URL, POSTGRESQL_DATABASE_URL, or from a matching database alias (e.g. WHITE, COPPER).
+  def pg
+    uri = resolve_pg_config_var(shift_argument, "DATABASE_URL", "POSTGRESQL_DATABASE_URL")
+    if !open_postgres("PostgreSQL", uri)
+      puts "Could not find a valid PostgreSQL database URL to connect to."
+    end
+  end
+
   # jackdb:mysql [CONFIG_VAR]
   #
   # Opens a MySQL database in JackDB
   #
-  # Connection information is pulled from the first valid value of DATABASE, MYSQL_DATABASE_URL, or DATABASE_URL matching a mysql database URI
-  def mysql(config_var = nil)
-    url = resolve_config_var_uri("mysql", config_var, "MYSQL_DATABASE_URL", "DATABASE_URL", "XEROUND_DATABASE_URL", "CLEARDB_DATABASE_URL")
-    open_mysql("MySQL", url)
+  # Connection information is pulled from the first valid value of DATABASE_URL or MYSQL_DATABASE_URL
+  def mysql
+    uri = resolve_config_var_uri("mysql", shift_argument, "DATABASE_URL", "MYSQL_DATABASE_URL")
+    if !open_mysql("MySQL", uri)
+      puts "Could not find a valid MySQL database URL to connect to."
+    end
+  end
+
+  # jackdb:oracle [CONFIG_VAR]
+  #
+  # Opens an Oracle database in JackDB
+  #
+  # Connection information is pulled from the first valid value of DATABASE_URL or ORACLE_DATABASE_URL.
+  # Database URLs should be of the form: oracle://<username>:<password>@<hostname>[:<port>]/<service-name>
+  #
+  # Example: oracle://myuser:mypass@myhost.example.org:1521/myservice_name
+  def oracle
+    uri = resolve_config_var_uri("oracle", shift_argument, "DATABASE_URL", "ORACLE_DATABASE_URL")
+    if !open_oracle("Oracle", uri)
+      puts "Could not find a valid Oracle database URL to connect to."
+    end
   end
 
   # jackdb:xeround
@@ -27,43 +56,22 @@ class Heroku::Command::JackDB < Heroku::Command::Run
   #
   # Connection information is pulled from XEROUND_DATABASE_URL
   def xeround
-    url = app_config_vars["XEROUND_DATABASE_URL"]
-    name = "Xeround MySQL"
-    open_mysql(name, url)
+    uri = resolve_config_var_uri("mysql", "XEROUND_DATABASE_URL")
+    if !open_mysql("Xeround MySQL", uri)
+      puts "Could not find a valid Xeround MySQL database URL to connect to."
+    end
   end
 
   # jackdb:cleardb
   #
   # Opens a ClearDB MySQL database in JackDB
   #
-  # Connection information is pulled from XEROUND_DATABASE_URL
+  # Connection information is pulled from CLEARDB_DATABASE_URL
   def cleardb
-    url = app_config_vars["CLEARDB_DATABASE_URL"]
-    name = "ClearDB MySQL"
-    open_mysql(name, url)
-  end
-
-  # jackdb:pg [DATABASE]
-  #
-  # Opens a PostgreSQL database in JackDB
-  #
-  # Defaults to DATABASE_URL databases if no DATABASE is specified
-  def pg
-    uri = URI.parse( hpg_resolve(shift_argument, "DATABASE_URL").url )
-    config = {
-      'name' => gen_datasource_name("PostgreSQL"),
-      'type' => "POSTGRESQL",
-      'config' => {
-        'host' => uri.host,
-        'port' => uri.port || 5432,
-        'database' => uri.path[1..-1],
-        'username' => uri.user,
-        'password' => uri.password,
-        'use_ssl' => true,
-        'validate_ssl_cert' => false
-      }
-    }
-    open_jackdb(config)
+    uri = resolve_config_var_uri("mysql", "CLEARDB_DATABASE_URL")
+    if !open_mysql("ClearDB MySQL", uri)
+      puts "Could not find a valid ClearDB MySQL database URL to connect to."
+    end
   end
 
   # jackdb
@@ -73,16 +81,15 @@ class Heroku::Command::JackDB < Heroku::Command::Run
   # This will search through your app config for the valid database url and try to connect to it.
   # If you have more than one database then use one of the "jackdb:" commands to connect to a specific one.
   def index
-    begin
-      pg()
+    config_var = shift_argument
+    if open_postgres("PostgreSQL", resolve_pg_config_var(config_var, "DATABASE_URL", "POSTGRESQL_DATABASE_URL"))
       return
-    rescue
-    end
-    begin
-      mysql()
+    elsif open_mysql("MySQL", resolve_config_var_uri("mysql",config_var, "DATABASE_URL", "MYSQL_DATABASE_URL"))
       return
-    rescue
+    elsif open_oracle("Oracle", resolve_config_var_uri("oracle", config_var, "DATABASE_URL", "ORACLE_DATABASE_URL"))
+      return
+    else
+      puts "Sorry! No valid database URL was found."
     end
-    puts "Could not find a database to connect to :("
   end
 end
