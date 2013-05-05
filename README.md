@@ -6,7 +6,7 @@
 
 Extends `heroku` command-line to query and visualize Heroku data sources on [JackDB][].
 
-<a href="http://www.jackdb.com/">
+<a href="http://www.jackdb.com/index.html?source=github.com">
   <img width="850" src="http://static.jackdb.com/public/img/jackdb-screenshot.png" alt="JackDB - Screenshot">
 </a>
 
