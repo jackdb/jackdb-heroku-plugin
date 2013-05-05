@@ -114,7 +114,7 @@ Use of this plugin with JackDB's services shall be subject to the [Terms of Serv
 
 Copyright &copy; 2013 JackDB, Inc.
 
-[JackDB]: http://www.jackdb.com/
+[JackDB]: http://www.jackdb.com/index.html?source=github.com
 [Contact]: mailto:hello@jackdb.com?subject=JackDB%20Heroku%20Plugin
 [JackDB Security]: http://www.jackdb.com/legal/security.html
 [JackDB Terms]: http://www.jackdb.com/legal/terms.html
