@@ -17,12 +17,15 @@ Extends `heroku` command-line to query and visualize Heroku data sources on [Jac
 ## Usage
 
     $ heroku help jackdb
-    Usage: heroku jackdb
+    Usage: heroku jackdb [filter]
 
      Open a database in JackDB
 
-     This will search through your app config for the valid database url and try to connect to it.
-     If you have more than one database then use one of the "jackdb:" commands to connect to a specific one.
+     This will search through your app config for the first valid database url and try to connect to it.
+     The search order for databases is PostgreSQL, then MySQL, then Oracle.
+
+     If you have more than one database then use one of the "jackdb:" commands to connect to a specific type of database.
+     You can also filter the config variables that are matched by specifying a filter as an argument. Filters are case insensitive.
 
     Additional commands, type "heroku help COMMAND" for more details:
 
@@ -31,13 +34,19 @@ Extends `heroku` command-line to query and visualize Heroku data sources on [Jac
       jackdb:oracle [CONFIG_VAR]  #  Opens an Oracle database in JackDB
       jackdb:pg [CONFIG_VAR]      #  Opens a Postgres database in JackDB
 
+
+
 ## Examples
 
 Open up the default database in JackDB (the plugin searches for the first valid database URL):
 
     $ heroku jackdb
 
-Open up the default PostgreSQL database in JackDB:
+Open up a database in JackDB with a config var containing "foobar" (the plugin searches for the first valid database URL):
+
+    $ heroku jackdb foobar
+
+foobar up the default PostgreSQL database in JackDB:
 
     $ heroku jackdb:pg
 
