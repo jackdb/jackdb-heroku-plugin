@@ -17,7 +17,9 @@ class Heroku::Command::JackDB < Heroku::Command::Run
   #
   # Connection information is pulled from the first valid value of DATABASE_URL, POSTGRESQL_DATABASE_URL, or from a matching database alias (e.g. WHITE, COPPER).
   def pg
-    uri = resolve_pg_config_var(shift_argument, "DATABASE_URL", "POSTGRESQL_DATABASE_URL")
+    config_var = shift_argument
+    config_vars = get_config_vars(config_var)
+    uri = resolve_config_var_uri("postgres", *config_vars)
     if !open_postgres("PostgreSQL", uri)
       puts "Could not find a valid PostgreSQL database URL to connect to."
     end
@@ -29,7 +31,9 @@ class Heroku::Command::JackDB < Heroku::Command::Run
   #
   # Connection information is pulled from the first valid value of DATABASE_URL or MYSQL_DATABASE_URL
   def mysql
-    uri = resolve_config_var_uri("mysql", shift_argument, "DATABASE_URL", "MYSQL_DATABASE_URL")
+    config_var = shift_argument
+    config_vars = get_config_vars(config_var)
+    uri = resolve_config_var_uri("mysql", *config_vars)
     if !open_mysql("MySQL", uri)
       puts "Could not find a valid MySQL database URL to connect to."
     end
@@ -44,21 +48,11 @@ class Heroku::Command::JackDB < Heroku::Command::Run
   #
   # Example: oracle://myuser:mypass@myhost.example.org:1521/myservice_name
   def oracle
-    uri = resolve_config_var_uri("oracle", shift_argument, "DATABASE_URL", "ORACLE_DATABASE_URL")
+    config_var = shift_argument
+    config_vars = get_config_vars(config_var)
+    uri = resolve_config_var_uri("oracle", *config_vars)
     if !open_oracle("Oracle", uri)
       puts "Could not find a valid Oracle database URL to connect to."
-    end
-  end
-
-  # jackdb:xeround
-  #
-  # Opens a Xeround MySQL database in JackDB
-  #
-  # Connection information is pulled from XEROUND_DATABASE_URL
-  def xeround
-    uri = resolve_config_var_uri("mysql", "XEROUND_DATABASE_URL")
-    if !open_mysql("Xeround MySQL", uri)
-      puts "Could not find a valid Xeround MySQL database URL to connect to."
     end
   end
 
@@ -74,19 +68,24 @@ class Heroku::Command::JackDB < Heroku::Command::Run
     end
   end
 
-  # jackdb
+  # jackdb [filter]
   #
   # Open a database in JackDB
   #
-  # This will search through your app config for the valid database url and try to connect to it.
-  # If you have more than one database then use one of the "jackdb:" commands to connect to a specific one.
+  # This will search through your app config for the first valid database url and try to connect to it.
+  # The search order for databases is PostgreSQL, then MySQL, then Oracle.
+  # 
+  # If you have more than one database then use one of the "jackdb:" commands to connect to a specific type of database.
+  # You can also filter the config variables that are matched by specifying a filter as an argument. Filters are case insensitive.
   def index
     config_var = shift_argument
-    if open_postgres("PostgreSQL", resolve_pg_config_var(config_var, "DATABASE_URL", "POSTGRESQL_DATABASE_URL"))
+    config_vars = get_config_vars(config_var)
+
+    if open_postgres("PostgreSQL", resolve_config_var_uri("postgres", *config_vars))
       return
-    elsif open_mysql("MySQL", resolve_config_var_uri("mysql",config_var, "DATABASE_URL", "MYSQL_DATABASE_URL"))
+    elsif open_mysql("MySQL", resolve_config_var_uri("mysql", *config_vars))
       return
-    elsif open_oracle("Oracle", resolve_config_var_uri("oracle", config_var, "DATABASE_URL", "ORACLE_DATABASE_URL"))
+    elsif open_oracle("Oracle", resolve_config_var_uri("oracle", *config_vars))
       return
     else
       puts "Sorry! No valid database URL was found."

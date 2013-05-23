@@ -9,6 +9,10 @@ require "heroku/helpers/heroku_postgresql"
 
 module Heroku::Helpers::JackDB
   extend self
+
+  def plugin_version
+    return "1.0.0"
+  end
   
   def open_link(link)
     if RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/ then
@@ -35,6 +39,10 @@ module Heroku::Helpers::JackDB
     if jackdb_server.scheme == "https"
       net.use_ssl = true
     end
+
+    # Add the plugin version to the config
+    config['plugin_version'] = plugin_version
+    puts "config: #{config}"
 
     request = Net::HTTP::Post.new("#{jackdb_server.path}#{jackdb_server_create_path}")
     request.add_field("Content-Type", "application/json")
@@ -155,12 +163,23 @@ module Heroku::Helpers::JackDB
     return nil
   end
 
-  def resolve_pg_config_var(config_var, *names)
-    if config_var != nil
-      keys = app_config_vars.keys.grep(%r{#{ config_var }}i)
-      return resolve_config_var_uri("postgres", *keys)
+  def get_config_vars(config_var)
+    config_vars = []
+    if config_var == nil
+      # Use the standard list of config variable values
+      config_vars.push "DATABASE_URL"
+      config_vars.push "POSTGRESQL_DATABASE_URL"
+      config_vars.push *app_config_vars.keys.grep(%r{HEROKU_POSTGRESQL_}i)
+      config_vars.push "MYSQL_DATABASE_URL"
+      config_vars.push "ORACLE_DATABASE_URL"
+      # After primary list try anything that looks like a URL:
+      config_vars.push *app_config_vars.keys.grep(%r{_URL}i)
     else
-      return resolve_config_var_uri("postgres", *names)
+      # Put the value itself first to make it's specificity highest
+      config_vars.push config_var
+      # Use the config var to get all related config variables
+      config_vars.push *app_config_vars.keys.grep(%r{#{ config_var }}i)
     end
+    return config_vars
   end
 end

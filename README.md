@@ -6,7 +6,7 @@
 
 Extends `heroku` command-line to query and visualize Heroku data sources on [JackDB][].
 
-<a href="http://www.jackdb.com/index.html?source=github.com">
+<a href="http://www.jackdb.com/index.html?utm_source=github">
   <img width="850" src="http://static.jackdb.com/public/img/jackdb-screenshot.png" alt="JackDB - Screenshot">
 </a>
 
@@ -30,7 +30,6 @@ Extends `heroku` command-line to query and visualize Heroku data sources on [Jac
       jackdb:mysql [CONFIG_VAR]   #  Opens a MySQL database in JackDB
       jackdb:oracle [CONFIG_VAR]  #  Opens an Oracle database in JackDB
       jackdb:pg [CONFIG_VAR]      #  Opens a Postgres database in JackDB
-      jackdb:xeround              #  Opens a Xeround MySQL database in JackDB
 
 ## Examples
 
@@ -62,7 +61,7 @@ We're working on adding support for additional data sources. [Let us know][Conta
 
 ## Networking & Firewall
 
-The plugin has been tested with [Heroku Postgres][], [Xeround MySQL][], and [ClearDB MySQL][] and works without any additional setup with all three.
+The plugin has been tested with [Heroku Postgres][] and [ClearDB MySQL][] and works without any additional setup with both.
 
 If your database is behind a firewall, you will need to open up the appropriate ports to allow JackDB to access it. For details, [see here][JackDB Networking].
 
@@ -114,7 +113,7 @@ Use of this plugin with JackDB's services shall be subject to the [Terms of Serv
 
 Copyright &copy; 2013 JackDB, Inc.
 
-[JackDB]: http://www.jackdb.com/index.html?source=github.com
+[JackDB]: http://www.jackdb.com/index.html?utm_source=github
 [Contact]: mailto:hello@jackdb.com?subject=JackDB%20Heroku%20Plugin
 [JackDB Security]: http://www.jackdb.com/legal/security.html
 [JackDB Terms]: http://www.jackdb.com/legal/terms.html
@@ -123,6 +122,5 @@ Copyright &copy; 2013 JackDB, Inc.
 [MySQL]: http://www.mysql.com/
 [MariaDB]: https://mariadb.org/
 [Heroku Postgres]: https://postgres.heroku.com/
-[Xeround MySQL]: http://xeround.com/
 [ClearDB MySQL]: http://www.cleardb.com/
 [Oracle RDBMS]: http://www.oracle.com/
