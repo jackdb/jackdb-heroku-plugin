@@ -11,7 +11,7 @@ module Heroku::Helpers::JackDB
   extend self
 
   def plugin_version
-    return "1.0.0"
+    return "1.1.0"
   end
   
   def open_link(link)
@@ -42,7 +42,6 @@ module Heroku::Helpers::JackDB
 
     # Add the plugin version to the config
     config['plugin_version'] = plugin_version
-    puts "config: #{config}"
 
     request = Net::HTTP::Post.new("#{jackdb_server.path}#{jackdb_server_create_path}")
     request.add_field("Content-Type", "application/json")
@@ -67,7 +66,7 @@ module Heroku::Helpers::JackDB
       puts ""
       open_link jackdb_link
     else
-      puts "Sorry an error occurred opening up JackDB Cloud. If this problem persists please contact support."
+      puts "Sorry an error occurred opening up JackDB Cloud. If this problem persists please try updating your plugin to the latest version or contact support."
     end
   end
 
