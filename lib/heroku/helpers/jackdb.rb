@@ -11,7 +11,7 @@ module Heroku::Helpers::JackDB
   extend self
 
   def plugin_version
-    return "1.1.0"
+    return "2.0.0"
   end
   
   def open_link(link)
@@ -180,5 +180,10 @@ module Heroku::Helpers::JackDB
       config_vars.push *app_config_vars.keys.grep(%r{#{ config_var }}i)
     end
     return config_vars
+  end
+
+  def app_config_vars
+    app_name = app rescue nil    
+    @app_config_vars ||= api.get_config_vars(app_name).body
   end
 end
