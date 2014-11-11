@@ -30,10 +30,9 @@ module Heroku::Helpers::JackDB
   end
 
   def open_jackdb(config)
-    jackdb_server = URI("https://cloud.jackdb.com")
-    
-    jackdb_server_create_path = "/api/v1/na/directConnect"
-    jackdb_server_connect_path = "/home/directConnect"
+    jackdb_server = URI("https://app.jackdb.com")
+    jackdb_server_create_path = "/api/v1/direct-connect/setup"
+    jackdb_server_connect_path = "/data-source/direct-connect"
     
     net = Net::HTTP.new(jackdb_server.host, jackdb_server.port)
     if jackdb_server.scheme == "https"
@@ -55,9 +54,12 @@ module Heroku::Helpers::JackDB
       http.request(request)
     end
 
-    result = JackDB::OkJson::decode(response.read_body)
-    if result && result['success'] && result['token']
-      jackdb_link = "#{jackdb_server}#{jackdb_server_connect_path}?token=#{result['token']}"
+    response = JackDB::OkJson::decode(response.read_body)
+    if response && response['success']
+      result = response['result']
+      id = result['id']
+      token = result['token']
+      jackdb_link = "#{jackdb_server}#{jackdb_server_connect_path}?id=#{id}&token=#{token}"
       puts "Successfully created JackDB connection token for your data source."
       puts "Your browser should automatically open to JackDB."
       puts "If not use this link:"
@@ -66,7 +68,10 @@ module Heroku::Helpers::JackDB
       puts ""
       open_link jackdb_link
     else
-      puts "Sorry an error occurred opening up JackDB Cloud. If this problem persists please try updating your plugin to the latest version or contact support."
+      puts "Sorry an error occurred opening up JackDB. If this problem persists please try updating your plugin to the latest version or contact support."
+      if response && response['error'] && response['error']['message']
+        puts "Error: " + response['error']['message']
+      end
     end
   end
 
@@ -79,16 +84,14 @@ module Heroku::Helpers::JackDB
     end
     config = {
       'name' => gen_datasource_name(name),
-      'type' => "POSTGRESQL",
+      'type' => "postgresql",
       'config' => {
         'host' => uri.host,
         'port' => uri.port || 5432,
         'database' => uri.path[1..-1],
         'username' => uri.user,
         'password' => uri.password,
-        'use_ssl' => true,
-        'validate_ssl_cert' => false,
-        'auto_commit' => true
+        'ssl' => true
       }
     }
     open_jackdb(config)
@@ -104,16 +107,14 @@ module Heroku::Helpers::JackDB
     end
     config = {
       'name' => gen_datasource_name(name),
-      'type' => "MYSQL",
+      'type' => "mysql",
       'config' => {
         'host' => uri.host,
         'port' => uri.port || 3306,
         'database' => uri.path[1..-1],
         'username' => uri.user,
         'password' => uri.password,
-        'use_ssl' => true,
-        'validate_ssl_cert' => false,
-        'auto_commit' => true
+        'ssl' => true,
       }
     }
     open_jackdb(config)
@@ -129,14 +130,13 @@ module Heroku::Helpers::JackDB
     end
     config = {
       'name' => gen_datasource_name(name),
-      'type' => "ORACLE",
+      'type' => "oracle",
       'config' => {
         'host' => uri.host,
         'port' => uri.port || 1521,
-        'service_name' => uri.path[1..-1],
+        'database' => uri.path[1..-1],
         'username' => uri.user,
         'password' => uri.password,
-        'auto_commit' => false
       }
     }
     open_jackdb(config)
