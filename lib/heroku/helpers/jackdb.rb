@@ -11,7 +11,7 @@ module Heroku::Helpers::JackDB
   extend self
 
   def plugin_version
-    return "2.0.0"
+    return "3.0.0"
   end
   
   def open_link(link)
