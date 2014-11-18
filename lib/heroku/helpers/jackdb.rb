@@ -45,6 +45,7 @@ module Heroku::Helpers::JackDB
     request = Net::HTTP::Post.new("#{jackdb_server.path}#{jackdb_server_create_path}")
     request.add_field("Content-Type", "application/json")
     request.add_field("Referer", jackdb_server)
+    request.add_field("User-Agent", "JackDB Heroku Plugin v#{plugin_version()}")
     request.body = JackDB::OkJson::encode(config)
     
     net.read_timeout = 10
