@@ -1,5 +1,5 @@
 <a href="http://www.jackdb.com/">
-  <img width="135" src="http://static.jackdb.com/public/img/jackdb-logo.png" alt="JackDB">
+  <img width="155" src="https://www.jackdb.com/assets/img/logo.png" alt="JackDB">
 </a>
 
 # JackDB Heroku Plugin
@@ -7,7 +7,7 @@
 Extends `heroku` command-line to query and visualize Heroku data sources on [JackDB][].
 
 <a href="http://www.jackdb.com/index.html?utm_source=github">
-  <img width="850" src="http://static.jackdb.com/public/img/jackdb-screenshot.png" alt="JackDB - Screenshot">
+  <img width="640" src="https://www.jackdb.com/assets/img/screenshot_1280.png" alt="JackDB - Screenshot">
 </a>
 
 ## Installation
@@ -72,7 +72,7 @@ We're working on adding support for additional data sources. [Let us know][Conta
 
 The plugin has been tested with [Heroku Postgres][] and [ClearDB MySQL][] and works without any additional setup with both.
 
-If your database is behind a firewall, you will need to open up the appropriate ports to allow JackDB to access it. For details, [see here][JackDB Networking].
+If your database is behind a firewall, you will need to open up the appropriate ports to allow JackDB to access it.
 
 ## Can I use this with a database running on my local machine or network?
 
@@ -120,13 +120,12 @@ Use of this plugin with JackDB's services shall be subject to the [Terms of Serv
 
 ## Copyright
 
-Copyright &copy; 2013 JackDB, Inc.
+Copyright &copy; 2014 JackDB, Inc.
 
-[JackDB]: http://www.jackdb.com/index.html?utm_source=github
+[JackDB]: https://www.jackdb.com/?utm_source=github
 [Contact]: mailto:hello@jackdb.com?subject=JackDB%20Heroku%20Plugin
-[JackDB Security]: http://www.jackdb.com/legal/security.html
-[JackDB Terms]: http://www.jackdb.com/legal/terms.html
-[JackDB Networking]: http://www.jackdb.com/docs/index.html#networking
+[JackDB Security]: https://www.jackdb.com/security
+[JackDB Terms]: https://www.jackdb.com/legal/terms
 [PostgreSQL]: http://www.postgresql.org/
 [MySQL]: http://www.mysql.com/
 [MariaDB]: https://mariadb.org/
